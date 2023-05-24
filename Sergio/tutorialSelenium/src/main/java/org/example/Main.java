@@ -5,7 +5,9 @@ public class Main {
         SeleniumConfig.config();
 //        Ejercicio1.getInstance().run();
 //        Ejercicio2.getInstance().run();
-        Ejercicio3.getInstance().run();
+//        Ejercicio3.getInstance().run();
+//        EjercicioExtra1.getInstance().run();
+        EjercicioExtra2.getInstance().run();
 
     }
 }
