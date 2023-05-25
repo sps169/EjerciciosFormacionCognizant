@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,7 +21,7 @@ public class Ejercicio1 {
     private WebDriver driver = new ChromeDriver();
     private WebDriverWait wait = new WebDriverWait(
             driver,
-            Duration.ofSeconds(30),
+            Duration.ofSeconds(5),
             Duration.ofMillis(100)
     );
     private Ejercicio1() {
@@ -51,17 +52,15 @@ public class Ejercicio1 {
     };
     public void run() {
         driver.get(LINK);
-
         //print title
         System.out.println("Page title: " + driver.getTitle());
 
         //resize window
         driver.manage().window().setSize(new Dimension(1280, 720));
-
         //reject message
-        WebElement rejectButton = fluentWait(By.xpath("//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[1]/yt-button-shape/button"));
-        rejectButton.click();
-
+        By rejectButtonQuery = By.cssSelector("button.yt-spec-button-shape-next.yt-spec-button-shape-next--filled.yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--size-m ");
+        wait.until(ExpectedConditions.presenceOfElementLocated(rejectButtonQuery));
+        driver.findElement(rejectButtonQuery).click();
 
         //search "dog thing" in search bar
         searchQuery();
@@ -75,10 +74,10 @@ public class Ejercicio1 {
 
     private WebElement selectVideo() {
         WebElement video = null;
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         boolean videoFound = false;
 
         while(!videoFound) {
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
             List<WebElement> videoList = driver.findElements(By.id("video-title"));
             System.out.println("Found " + videoList.size()+ " videos");
             video = videoList.stream().filter(e -> e.getAttribute("title").equals("dog thing")).findFirst().orElse(null);
@@ -89,24 +88,18 @@ public class Ejercicio1 {
     }
 
     private void searchQuery() {
-        WebElement searchBar = fluentWait(By.name("search_query"));
+        WebElement searchBar = driver.findElement(By.name("search_query"));
         System.out.println("Displayed: " + searchBar.isDisplayed());
         System.out.println("Enabled: " + searchBar.isEnabled());
-        Action sendKeys = new Actions(driver)
-                .moveToElement(searchBar)
-                .click()
-                .sendKeys(searchBar,"dog thing")
-                .build();
-        WebElement form = fluentWait(By.id("search-form"));
-
-        wait.until(new Function<WebDriver, Boolean>() {
-
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                sendKeys.perform();
-                return true;
-            }
-        });
+        wait.until(ExpectedConditions.elementToBeClickable(searchBar));
+        searchBar.click();
+        searchBar.sendKeys("dog thing");
+        WebElement form = driver.findElement(By.id("search-form"));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         form.submit();
     }
 
