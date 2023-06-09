@@ -29,8 +29,11 @@ public class SelectIphone14ProOptionsPage extends BasePageObject{
     @FindBy(xpath = "//input[@value=\"fullprice\"]/following::label[1]")
     private WebElement paymentInput;
 
-    @FindBy(name = "applecareplus_59")
+    @FindBy(xpath = "//input[@id=\"applecareplus_59_noapplecare\"]/following::label[1]")
     private WebElement appleCareInput;
+
+    @FindBy(xpath = "//button[@value=\"add-to-cart\"]")
+    private WebElement buyButton;
     public SelectIphone14ProOptionsPage(WebDriver driver) {
         super(driver);
     }
@@ -42,7 +45,8 @@ public class SelectIphone14ProOptionsPage extends BasePageObject{
         capacityInput = doActionOrReload(capacityInput, By.xpath("//input[@value=\"256gb\"]/following::label[1]"));
         tradeInInput = doActionOrReload(tradeInInput, By.xpath("//input[@value=\"noTradeIn\"]/following::label[1]"));
         paymentInput = doActionOrReload(paymentInput, By.xpath("//input[@value=\"fullprice\"]/following::label[1]"));
-        appleCareInput = doActionOrReload(appleCareInput, By.name("applecareplus_59"));
+        appleCareInput = doActionOrReload(appleCareInput, By.xpath("//input[@name=\"applecareplus_59\"]/following::label[1]"));
+        buyButton = doActionOrReload(buyButton, By.xpath("//button[@value=\"add-to-cart\"]"));
     }
 
     public void waitFormInput(WebElement element) {
@@ -56,14 +60,19 @@ public class SelectIphone14ProOptionsPage extends BasePageObject{
     }
 
     public WebElement doActionOrReload(WebElement element, By by) {
+        boolean clicked = false;
+        new Actions(driver).scrollByAmount(200, 200).build().perform();
         waitFormInput(element);
         Action actions = new Actions(driver).scrollToElement(element).click(element).build();
-        try {
-            actions.perform();
-        } catch (StaleElementReferenceException e) {
-            element = driver.findElement(by);
-            actions.perform();
+        while (!clicked) {
+            try {
+                actions.perform();
+                clicked = true;
+            } catch (StaleElementReferenceException e) {
+                element = driver.findElement(by);
+            }
         }
+
         return element;
     }
 
