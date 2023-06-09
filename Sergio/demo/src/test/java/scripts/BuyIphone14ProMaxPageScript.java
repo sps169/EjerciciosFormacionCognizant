@@ -27,7 +27,7 @@ public class BuyIphone14ProMaxPageScript {
     @BeforeTest
     public void maximize() {
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(200));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(300));
     }
 
     @Test
