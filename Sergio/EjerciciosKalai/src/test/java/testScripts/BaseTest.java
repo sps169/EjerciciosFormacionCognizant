@@ -1,23 +1,11 @@
-package scripts;
+package testScripts;
 
 import driverManagement.DriverFactory;
 import driverManagement.DriverManager;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import pages.DashboardPage;
-import pages.WindowPage;
 
-import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 

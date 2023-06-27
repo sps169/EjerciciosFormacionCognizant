@@ -3,7 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 
 public abstract class BasePage {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     public String link;
 
