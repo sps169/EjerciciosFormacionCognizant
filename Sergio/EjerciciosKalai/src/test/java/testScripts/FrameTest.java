@@ -17,10 +17,30 @@ public class FrameTest extends BaseTest{
     }
 
     @Test
+    public void clickInsideFrame() {
+        WebDriver driver = driverManager.getDriver();
+        driver.get(FramePage.LINK);
+        FramePage page = PageFactory.initElements(driver, FramePage.class);
+        String beforeClick = page.getOrangeButtonText();
+        page.clickOrangeButton();
+        String afterClick = page.getOrangeButtonText();
+        Assert.assertNotEquals(beforeClick, afterClick);
+    }
+
+    @Test
+    public void clickInsideNestedFrame() {
+        WebDriver driver = driverManager.getDriver();
+        driver.get(FramePage.LINK);
+        FramePage page = PageFactory.initElements(driver, FramePage.class);
+        String beforeClick = page.getPurpleButtonText();
+        String afterClick = page.clickPurpleButton();
+        Assert.assertNotEquals(beforeClick, afterClick);
+    }
+
+    @Test
     public void testCountFrames() {
         WebDriver driver = driverManager.getDriver();
         driver.get(FramePage.LINK);
         Assert.assertEquals(4, PageFactory.initElements(driver, FramePage.class).countiFrames());
-
     }
 }

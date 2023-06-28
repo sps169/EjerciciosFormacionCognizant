@@ -1,5 +1,6 @@
 package pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,19 +19,49 @@ public class FramePage extends BasePage{
     @FindBy(css = "iframe")
     List<WebElement> iframes;
     public void clickOrangeButton() {
-        WebElement iFrameOrange = iframes.get(1);
+        WebElement iFrameOrange = iframes.get(0);
         driver.switchTo().frame(iFrameOrange);
-        iFrameOrange.findElement(By.id("Click")).click();
+        driver.findElement(By.id("Click")).click();
         driver.switchTo().parentFrame();
     }
 
-
-    public void clickPurpleButton() {
-        WebElement iframePurple = iframes.get(3);
-        driver.switchTo().frame(iframePurple);
-        WebElement iframeNested = iframePurple.findElement(By.cssSelector("iframe"));
-        driver.switchTo().frame(iframeNested).findElement(By.id("Click")).click();
+    public String getOrangeButtonText() {
+        WebElement iFrameOrange = iframes.get(0);
+        driver.switchTo().frame(iFrameOrange);
+        String orangeButtonText = driver.findElement(By.id("Click")).getText();
         driver.switchTo().parentFrame();
+        return orangeButtonText;
+    }
+
+    public String clickPurpleButton() {
+        WebElement iframePurple = null;
+        try {
+            iframePurple = iframes.get(2);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(iframePurple);
+        WebElement iframeNested = driver.findElement(By.cssSelector("iframe"));
+        driver.switchTo().frame(iframeNested);
+        WebElement purpleButton = driver.findElement(By.id("Click"));
+        purpleButton.click();
+        String text = purpleButton.getText();
+        driver.switchTo().parentFrame();
+        return text;
+    }
+
+    public String getPurpleButtonText() {
+        WebElement iframePurple = null;
+        try {
+            iframePurple = iframes.get(2);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(iframePurple);
+        WebElement iframeNested = driver.findElement(By.cssSelector("iframe"));
+        String purpleButtonText = driver.switchTo().frame(iframeNested).findElement(By.id("Click")).getText();
+        driver.switchTo().parentFrame();
+        return purpleButtonText;
     }
 
     public long countiFrames() {
@@ -49,6 +80,10 @@ public class FramePage extends BasePage{
         }
         driver.switchTo().parentFrame();
         return count;
+    }
+
+    public int getIFrameListSize() {
+        return iframes.size();
     }
 
 }
