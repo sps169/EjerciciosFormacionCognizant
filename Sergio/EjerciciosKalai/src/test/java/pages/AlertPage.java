@@ -135,22 +135,22 @@ public class AlertPage extends BasePage{
     }
 
     public void minMaxAlertMinimize() {
-        ExpectedCondition<WebElement> waitCondition = null;
-        if (whiteMinMaxAlert.getAttribute("class").contentEquals("ui-dialog-minimized"))
-            waitCondition = ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-icon.ui-icon-minus"));
+        ExpectedCondition<Boolean> waitCondition = null;
+        if (whiteMinMaxAlert.getAttribute("class").contains("ui-dialog-minimized"))
+            waitCondition = ExpectedConditions.not(ExpectedConditions.attributeContains(whiteMinMaxAlert, "class", "ui-dialog-minimized"));
         else
-            waitCondition = ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-icon.ui-icon-plus"));
+            waitCondition = ExpectedConditions.attributeContains(whiteMinMaxAlert, "class", "ui-dialog-minimized");
         minMaxAlertMinButton.click();
-        new WebDriverWait(driver, Duration.ofSeconds(2)).until(waitCondition);
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(waitCondition);
     }
 
     public void minMaxAlertMaximize() {
-        ExpectedCondition<WebElement> waitCondition = null;
-        if (whiteMinMaxAlert.getAttribute("class").contentEquals("ui-dialog-maximized"))
-            waitCondition = ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-icon.ui-icon-extlink"));
+        ExpectedCondition<Boolean> waitCondition = null;
+        if (whiteMinMaxAlert.getAttribute("class").contains("ui-dialog-maximized"))
+            waitCondition = ExpectedConditions.not(ExpectedConditions.attributeContains(whiteMinMaxAlert, "class", "ui-dialog-maximized"));
         else
-            waitCondition = ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ui-icon.ui-icon-newwin"));
+            waitCondition = ExpectedConditions.attributeContains(whiteMinMaxAlert, "class", "ui-dialog-maximized");
         minMaxAlertMaxButton.click();
-        new WebDriverWait(driver, Duration.ofSeconds(2)).until(waitCondition);
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(waitCondition);
     }
 }

@@ -21,7 +21,8 @@ public abstract class BaseTest {
     public static Collection<String> data() {
         return List.of(
                 "CHROME",
-                "FIREFOX"
+                "EDGE"
+//                "FIREFOX"
         );
     }
 

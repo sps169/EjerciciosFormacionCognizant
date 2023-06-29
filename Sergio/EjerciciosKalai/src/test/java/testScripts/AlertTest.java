@@ -3,6 +3,7 @@ package testScripts;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pages.AlertPage;
@@ -44,7 +45,7 @@ public class AlertTest extends BaseTest{
         Assert.assertFalse(page.blueAlert.isDisplayed());
     }
 
-    @Ignore //bug in firefox todo test in edge
+//    @Ignore //bug in firefox
     @Test //todo merge with blueAlertTest
     public void purpleAlertTest() {
         WebDriver driver = driverManager.getDriver();
@@ -84,7 +85,7 @@ public class AlertTest extends BaseTest{
         Assert.assertFalse(page.redAlert.isDisplayed());
     }
 
-    @Ignore //bug in firefox (same as purple) todo test in edge
+//    @Ignore //bug in firefox (same as purple)
     @Test
     public void minMaxAlertTest() {
         WebDriver driver = driverManager.getDriver();
@@ -93,7 +94,16 @@ public class AlertTest extends BaseTest{
         Assert.assertFalse(page.whiteMinMaxAlert.isDisplayed());
         page.embeddedAlertOpen(page.whiteMinMaxAlert, page.whiteMinMaxButton);
         Assert.assertTrue(page.whiteMinMaxAlert.isDisplayed());
-        //todo test minimize & maximize
+        Dimension standardSize = new Dimension(350, 140);
+        Assert.assertEquals(standardSize, page.whiteMinMaxAlert.getSize());
+        page.minMaxAlertMaximize();
+        Assert.assertNotEquals(standardSize, page.whiteMinMaxAlert.getSize());
+        page.minMaxAlertMaximize();
+        Assert.assertEquals(standardSize, page.whiteMinMaxAlert.getSize());
+        page.minMaxAlertMinimize();
+        Assert.assertNotEquals(standardSize, page.whiteMinMaxAlert.getSize());
+        page.minMaxAlertMinimize();
+        Assert.assertEquals(standardSize, page.whiteMinMaxAlert.getSize());
         page.embeddedAlertDismiss(page.whiteMinMaxAlert, page.minMaxAlertCloseButton);
         Assert.assertFalse(page.whiteMinMaxAlert.isDisplayed());
     }
